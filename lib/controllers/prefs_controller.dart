@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:my_money/controllers/budget_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 saveValue(type, name, value) async {
@@ -33,4 +35,43 @@ getValue(type, name) async {
 cleanValues() async {
   final prefs = await SharedPreferences.getInstance();
   prefs.clear();
+  moneyProvider.clear();
 }
+
+class Expense {
+  late String name;
+  late int amount;
+  late String category;
+
+  Expense({required name, required amount, required category}) {
+    throw UnimplementedError();
+  }
+
+  factory Expense.fromJson(Map<String, dynamic> json) {
+    String name = json['name'];
+    int amount = json['amount'];
+    String category = json['category'];
+
+    return Expense(amount: amount, name: name, category: category);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['amount'] = amount;
+    data['name'] = name;
+    data['category'] = category;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return '"info" : { "amount": $amount, "name": $name, "category": $category}';
+  }
+}
+
+me quede atorado aca
+// Future<void> saveExpense(name, amount, category) async {
+//   final expense = Expense(name: name, amount: amount, category: category);
+//   final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   saveValue('stringList', name, value)
+// }

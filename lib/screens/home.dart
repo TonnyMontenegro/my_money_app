@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_money/controllers/budget_controller.dart';
 import 'package:my_money/controllers/home_controller.dart';
 
@@ -14,8 +15,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => resetData(context),
-        child: const Icon(Icons.cleaning_services_rounded),
+        onPressed: () => GoRouter.of(context).push('/expense'),
+        foregroundColor: Colors.black,
+        tooltip: "Agregar gasto",
+        backgroundColor: Colors.greenAccent,
+        child: const Icon(Icons.add),
       ),
       body: Column(
         children: [
@@ -35,61 +39,31 @@ class _HomeState extends State<Home> {
                     onPressed: () => resetData(context),
                     child: const Text("Eliminar presupuesto y datos"),
                     style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                Text("Presupuesto: ${moneyProvider.balance.toString()} \$", style: TextStyle(fontSize: 25)),
+                Text("Presupuesto: ${moneyProvider.budget.toString()} \$", style: TextStyle(fontSize: 25)),
                 Text("Balance: ${moneyProvider.balance.toString()} \$", style: TextStyle(fontSize: 25)),
                 Text("Gastos: ${moneyProvider.expenses.toString()} \$", style: TextStyle(fontSize: 25)),
                 SizedBox(height: 50),
                 Text("Filtrar gastos por:"),
                 SizedBox(height: 50),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.34,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Hoy"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Esta semana"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este mes"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                        ElevatedButton(
-                            onPressed: () => resetData(context),
-                            child: const Text("Este año"),
-                            style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.redAccent)),
-                      ],
-                    ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: double.infinity,
+                  color: Colors.grey,
+                  child: ListView.separated(
+                    itemCount: moneyProvider.expensesList.length,
+                    itemBuilder: (context, i) {
+                      return Container(
+                        color: Colors.white,
+                        height: 150,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Column(children: [
+                          Text(moneyProvider.expensesList[i]['name']),
+                          Text(moneyProvider.expensesList[i]['category']),
+                          Text(moneyProvider.expensesList[i]['amount'].toString()),
+                        ]),
+                      );
+                    },
+                    separatorBuilder: (context, i) => Container(height: 10),
                   ),
                 ),
               ],

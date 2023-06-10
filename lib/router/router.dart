@@ -2,6 +2,7 @@
 
 import 'package:go_router/go_router.dart';
 import 'package:my_money/screens/budget.dart';
+import 'package:my_money/screens/expense.dart';
 import 'package:my_money/screens/home.dart';
 
 GoRouter router() {
@@ -16,16 +17,7 @@ GoRouter router() {
         path: '/home',
         builder: (context, state) => const Home(),
       ),
-      // GoRoute(
-      //   path: '/catalog',
-      //   builder: (context, state) => const MyCatalog(),
-      //   routes: [
-      //     GoRoute(
-      //       path: 'cart',
-      //       builder: (context, state) => const MyCart(),
-      //     ),
-      //   ],
-      // ),
+      GoRoute(path: '/expense', builder: (context, state) => const Expense()),
     ],
   );
 }
